@@ -18,8 +18,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # 替换掉 android-actions/setup-android@v3，改用预先集成SDK的action
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: malinskiy/action-android@release/0.1.2
+      with:
+        cmdline-tools-version: "12266719"
+
+    - name: Accept SDK licenses
+      run: yes | sdkmanager --licenses
 
     - name: Build Debug APK
       run: ./gradlew assembleDebug
@@ -28,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: DiPlay-debug-apk
-        path: automotive/build/outputs/apk/debug/Diplay.apk
+        path: automotive/build/outputs/apk/debug/DiPlay.apk
